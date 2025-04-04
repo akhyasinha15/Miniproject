@@ -1,0 +1,22 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+form {
+    margin: 20px auto;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+}
+
+input, button {
+    margin: 5px 0;
+    padding: 10px;
+}
+
+button {
+    background-color: blue;
+    color: white;
+    cursor: pointer;
+}

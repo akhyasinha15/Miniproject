@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diet Plan Generator - MountCare Health System</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+    }
+    header, nav, section, footer {
+      padding: 20px;
+    }
+    header {
+      background-color: #54b1ee;
+      color: white;
+      text-align: center;
+    }
+    nav {
+      background-color: #c22f9d;
+      text-align: center;
+      padding: 15px;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 15px;
+      font-weight: bold;
+    }
+    .main-content {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+    
+    .facility-tools {
+      background: #f0f0f0;
+      padding: 30px;
+      border-radius: 8px;
+    }
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .tool-card {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .btn {
+      background: #c22f9d;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    
+    h2 {
+      color: #c22f9d;
+      border-bottom: 2px solid #54b1ee;
+      padding-bottom: 10px;
+    }
+    
+    footer {
+      background: #c22f9d;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      margin-top: 40px;
+    }
+    .form-group {
+      margin: 15px 0;
+      padding: 10px;
+      background: #f8f8f8;
+      border-radius: 5px;
+    }
+
+    label {
+      display: block;
+      margin: 8px 0;
+      color: #333;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 8px;
+      margin: 5px 0;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+
+    input[type="radio"], input[type="checkbox"] {
+      margin-right: 5px;
+    }
+    .diet-recommendation {
+      padding: 15px;
+      background: #e8f4fc;
+      border-left: 4px solid #54b1ee;
+      margin: 15px 0;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>MountCare Diet Planner</h1>
+    <p>Personalized nutrition plans for better health</p>
+  </header>
+
+  <nav>
+    <a href="ho.html">Home</a>
+    <a href="ptcare.html">Health Tools</a>
+    <a href="#">Nutrition Guides</a>
+    <a href="#">Contact Dietitian</a>
+  </nav>
+
+  <div class="main-content">
+    <section class="facility-tools">
+      <h2>Create Your Diet Plan</h2>
+      <div class="tool-card">
+        <form id="dietForm" onsubmit="generateDietPlan(event)">
+          <div class="form-group">
+            <label><strong>Diet Preference:</strong></label>
+            <div>
+              <label><input type="radio" name="dietType" value="vegetarian" required> Vegetarian</label>
+              <label><input type="radio" name="dietType" value="non-vegetarian"> Non-Vegetarian</label>
+              <label><input type="radio" name="dietType" value="eggitarian"> Eggitarian</label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label><strong>Basic Information:</strong></label>
+            <div>
+              <label>Height (cm): <input type="number" id="height" required></label>
+              <label>Weight (kg): <input type="number" id="weight" required></label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label><strong>Health Conditions:</strong></label>
+            <div>
+              <label><input type="checkbox" name="conditions" value="diabetic"> Diabetic</label>
+              <label><input type="checkbox" name="conditions" value="cholesterol"> High Cholesterol</label>
+              <label><input type="checkbox" name="conditions" value="pcod"> PCOS/PCOD</label>
+              <label><input type="checkbox" name="conditions" value="pregnant"> Pregnant</label>
+            </div>
+          </div>
+
+          <button type="submit" class="btn">Generate Diet Plan</button>
+        </form>
+
+        <div id="bmiResult" class="diet-recommendation"></div>
+        <div id="dietPlan" class="diet-recommendation" style="display: none;"></div>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <p>Consult our dietitians at +91-1800-DIET-CARE | 2025 MountCare Health System</p>
+  </footer>
+
+  <script>
+  function generateDietPlan(event) {
+    event.preventDefault();
+    
+    const dietType = document.querySelector('input[name="dietType"]:checked').value;
+    const height = parseFloat(document.getElementById('height').value)/100;
+    const weight = parseFloat(document.getElementById('weight').value);
+    const conditions = Array.from(document.querySelectorAll('input[name="conditions"]:checked'))
+                           .map(cb => cb.value);
+    
+    const bmi = weight / (height * height);
+    const bmiCategories = {
+      underweight: bmi < 18.5,
+      normal: bmi >= 18.5 && bmi <= 24.9,
+      overweight: bmi >= 25
+    };
+    
+    let recommendations = [];
+    
+    if(dietType === 'vegetarian') {
+      recommendations.push('Lentils', 'Quinoa', 'Chickpeas', 'Tofu', 'Nuts');
+    } else if(dietType === 'non-vegetarian') {
+      recommendations.push('Grilled chicken', 'Fish', 'Egg whites', 'Lean beef', 'Turkey');
+    } else {
+      recommendations.push('Eggs', 'Dairy products', 'Paneer', 'Legumes', 'Whole grains');
+    }
+    
+    if(conditions.includes('diabetic')) {
+      recommendations = recommendations.filter(food => !['White rice', 'Bread'].includes(food));
+      recommendations.push('Bitter gourd', 'Fenugreek', 'Cinnamon', 'Whole grains', 'Leafy greens');
+    }
+    
+    if(conditions.includes('cholesterol')) {
+      recommendations = recommendations.filter(food => !['Red meat', 'Full-fat dairy'].includes(food));
+      recommendations.push('Oats', 'Walnuts', 'Olive oil', 'Avocado', 'Fatty fish');
+    }
+    
+    if(conditions.includes('pcod')) {
+      recommendations.push('Flaxseeds', 'Broccoli', 'Berries', 'Cinnamon', 'Whole grains');
+    }
+    
+    if(conditions.includes('pregnant')) {
+      recommendations.push('Spinach', 'Fortified cereals', 'Dairy products', 'Legumes', 'Lean meats');
+    }
+    
+    recommendations = [...new Set(recommendations)].slice(0, 5);
+
+    const bmiResult = `Your BMI: ${bmi.toFixed(1)} (${Object.keys(bmiCategories).find(k => bmiCategories[k])})`;
+    const dietPlanHTML = `
+      <h3>Your Personalized Diet Plan</h3>
+      <p>Based on your ${dietType} diet and health conditions:</p>
+      <ul>${recommendations.map(food => `<li>${food}</li>`).join('')}</ul>
+    `;
+    
+    document.getElementById('bmiResult').innerHTML = bmiResult;
+    document.getElementById('dietPlan').style.display = 'block';
+    document.getElementById('dietPlan').innerHTML = dietPlanHTML;
+  }
+  </script>
+</body>
+</html>

@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MountCare Health System</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    
+    header, nav, section, footer {
+      padding: 20px;
+    }
+    
+    header {
+      background-color: #54b1ee;
+      color: white;
+      text-align: center;
+      font-size: 24px;
+    }
+    
+    nav {
+      background-color: #c22f9d;
+      text-align: center;
+      padding: 15px;
+      font-size: 18px;
+    }
+    
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 15px;
+      font-weight: bold;
+    }
+    
+    .slider-container {
+      width: 100%;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .slider {
+      display: flex;
+      transition: transform 0.5s ease;
+      width: 100%;
+    }
+    
+    .slide {
+      min-width: 100%;
+      position: relative;
+    }
+    
+    .slide img {
+      width: 100%;
+      height: 450px;
+      object-fit: cover;
+    }
+    
+    .slide a {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      margin-top: 50px;
+      color: white;
+      padding: 40px 40px;
+      text-decoration: none;
+      font-size: 70px;
+      font-weight: bold;
+      border-radius: 5px;
+    }
+    
+    .slider-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.5);
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      cursor: pointer;
+      font-size: 18px;
+    }
+    
+    .prev {
+      left: 10px;
+    }
+    
+    .next {
+      right: 10px;
+    }
+    h2 {
+            color: #010b0e; 
+        }
+        h3 {
+            color: #009CDE; 
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            width: 400px;
+        }
+
+        li {
+            border-bottom: 1px solid #ccc;
+            padding: 10px;
+            font-size: 18px;
+        }
+
+        li a {
+            text-decoration: none;
+            color: #009CDE;
+            display: flex;
+            align-items: center;
+        }
+
+        li a::before {
+            content: "\25B6"; 
+            font-size: 12px;
+            margin-right: 10px;
+            color: #009CDE;
+        }
+
+        li:last-child {
+            border-bottom: none;
+        }
+        .features {
+      display: flex;
+      justify-content: space-around;
+      background: #e0e0e0;
+      padding: 30px 0;
+      flex-wrap: wrap;
+    }
+    
+    .feature {
+      text-align: center;
+      width: 250px;
+      margin: 10px;
+      padding: 15px;
+      background: white;
+      border-radius: 5px;
+    }
+    
+    .feature button {
+      background: #c22f9d;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    
+    .find-doctor {
+      text-align: center;
+      background: #54b1ee;
+      padding: 30px;
+    }
+    
+    .find-doctor input {
+      padding: 8px;
+      margin: 5px;
+      width: 200px;
+    }
+    
+    .find-doctor button {
+      background: #c22f9d;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      cursor: pointer;
+    }
+    
+    footer {
+      background: #c22f9d;
+      color: white;
+      text-align: center;
+      padding: 15px;
+    }
+
+    /* Form Styles */
+    .form-container {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      z-index: 1000;
+      width: 300px;
+    }
+
+    .form-container h3 {
+      margin-top: 0;
+      color: #c22f9d;
+    }
+
+    .form-container label {
+      display: block;
+      margin: 10px 0 5px;
+    }
+
+    .form-container input, 
+    .form-container select {
+      width: 100%;
+      padding: 8px;
+      box-sizing: border-box;
+    }
+
+    .form-buttons {
+      margin-top: 15px;
+      text-align: right;
+    }
+
+    .form-buttons button {
+      padding: 8px 15px;
+      margin-left: 10px;
+      cursor: pointer;
+    }
+
+    .form-buttons button[type="submit"] {
+      background: #c22f9d;
+      color: white;
+      border: none;
+    }
+
+    .form-buttons button[type="button"] {
+      background: #ccc;
+      border: none;
+    }
+
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 999;
+    }
+
+    .discount-options {
+      margin: 15px 0;
+      border-top: 1px solid #eee;
+      padding-top: 15px;
+    }
+    
+    .discount-options label {
+      display: block;
+      margin: 5px 0;
+    }
+    
+    .discount-options input[type="checkbox"] {
+      margin-right: 8px;
+    }
+    
+    .form-row {
+      display: flex;
+      align-items: center;
+      margin: 5px 0;
+    }
+    
+    .form-row input[type="text"],
+    .form-row input[type="number"] {
+      flex: 1;
+      margin-left: 10px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>MountCare Health System</h1>
+    <p>Compassionate care for every patient.</p>
+  </header>
+
+  <nav>
+    <a href="#">Find a Doctor</a>
+    <a href="index.html">Appointments</a>
+    <a href="#">Locations</a>
+    <a href="ptcare.html">Patient Care</a>
+    <a href="aboutus.html">About Us</a>
+  </nav>
+
+  <div class="slider-container">
+    <div class="slider">
+      <div class="slide">
+        <img src="C:\Users\hp\OneDrive\Desktop\miniproject\d1f45eac-153c-4059-9604-55731dcd59a5.jpg" alt="Hospital Image 1">
+        
+      </div>
+      <div class="slide">
+        <img src="C:\Users\hp\OneDrive\Desktop\miniproject\e7e8f599-4ae3-48a9-97d8-ee56248a4309.jpg" alt="Hospital Image 2">
+      </div>
+      <div class="slide">
+        <img src="C:\Users\hp\OneDrive\Desktop\miniproject\f3aac39f-2305-4639-8baa-0a93307981ef.jpg" alt="Hospital Image 3">
+        <a href="https://nhm.gov.in/index1.php?lang=1&level=2&sublinkid=824&lid=220" target="_blank">Vaccination Details</a>
+      </div>
+    </div>
+    <button class="slider-btn prev" onclick="prevSlide()">❮</button>
+    <button class="slider-btn next" onclick="nextSlide()">❯</button>
+  </div>
+  <section class="features">
+    <div class="feature">
+      <h3>Hospital Bill Calculator</h3>
+      <p>Estimate your treatment costs.</p>
+      <button onclick="showBillCalculator()">Calculate Bill</button>
+    </div>
+    <div class="feature">
+      <h3>Book Online</h3>
+      <p>Schedule appointments easily and quickly.</p>
+      <button onclick="showAppointmentForm()">Book Now</button>
+    </div>
+    <div class="feature">
+      <h3>MyMountCare App</h3>
+      <p>Manage healthcare needs on the go.</p>
+      <button onclick="window.location.href='https://www.apple.com/in/health/'">Download</button>
+    </div>
+  </section>
+  <section class="find-doctor">
+    <h2>Find a Doctor</h2>
+    <input type="text" placeholder="Specialty or Doctor">
+    <input type="text" placeholder="Email">
+    <input type="text" placeholder="Location">
+    <button>Search</button>
+  </section>
+  <table border="1">
+    <thead>
+        <tr>
+            <th>Appointment ID</th>
+            <th>Patient Name</th>
+            <th>Doctor</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody id="appointmentTableBody">
+        <!-- Appointments will be loaded here -->
+    </tbody>
+</table>
+<div id="editModal" style="display:none; position:fixed; top:20%; left:30%; background:#fff; padding:20px; border:1px solid #000;">
+  <h2>Edit Appointment</h2>
+  <form id="editAppointmentForm">
+      <input type="hidden" id="editId">
+      <label>Patient Name:</label>
+      <input type="text" id="editName" required><br><br>
+      <label>Doctor:</label>
+      <input type="text" id="editDoctor" required><br><br>
+      <label>Date:</label>
+      <input type="date" id="editDate" required><br><br>
+      <label>Time:</label>
+      <input type="time" id="editTime" required><br><br>
+      <button type="button" onclick="updateAppointment()">Save Changes</button>
+      <button type="button" onclick="closeEditModal()">Cancel</button>
+  </form>
+</div>
+  <footer>
+    <p>Call us at +91-1800-MD-CARE | 2025 MountCare Health System</p>
+  </footer>
+  <div class="overlay" id="overlay"></div>
+  <div class="form-container" id="appointmentForm">
+    <h3>Book an Appointment</h3>
+    <form id="appointmentFormData" onsubmit="submitAppointmentForm(event)">
+      <label for="name">Full Name:</label>
+      <input type="text" id="name" required>
+      
+      <label for="email">Email:</label>
+      <input type="email" id="email" required>
+      
+      <label for="phone">Phone Number:</label>
+      <input type="tel" id="phone" required>
+      
+      <label for="date">Preferred Date:</label>
+      <input type="date" id="date" required>
+      
+      <label for="department">Department:</label>
+      <select id="department" onchange="updateDoctorsList()" required>
+        <option value="">Select Department</option>
+        <option value="cardiology">Cardiology</option>
+        <option value="oncology">Oncology</option>
+        <option value="neurology">Neurology</option>
+        <option value="pediatrics">Pediatrics</option>
+        <option value="general">General Medicine</option>
+      </select>
+      
+      <label for="doctor">Preferred Doctor:</label>
+      <select id="doctor" required>
+        <option value="">Select Department First</option>
+      </select>
+      
+      <div class="form-buttons">
+        <button type="button" onclick="hideForm('appointmentForm')">Cancel</button>
+        <button type="submit">Book Appointment</button>
+      </div>
+    </form>
+  </div>
+  <div class="form-container" id="billCalculatorForm">
+    <h3>Hospital Bill Calculator</h3>
+    <form id="billCalculatorFormData" onsubmit="calculateBill(event)">
+      <label for="roomDays">Room Days:</label>
+      <input type="number" id="roomDays" min="0" value="0" required>
+      
+      <label for="medicineCost">Medicine Cost (₹):</label>
+      <input type="number" id="medicineCost" min="0" value="0" required>
+      
+      <label for="testsCost">Tests Cost (₹):</label>
+      <input type="number" id="testsCost" min="0" value="0" required>
+      
+      <label for="otherCharges">Other Charges (₹):</label>
+      <input type="number" id="otherCharges" min="0" value="0" required>
+      
+      <div class="discount-options">
+        <strong>Discount Options:</strong>
+        
+        <div class="form-row">
+          <label>
+            <input type="checkbox" id="ageDiscount" onchange="toggleAgeField()"> Age-based Discount
+          </label>
+          <input type="number" id="patientAge" min="0" max="120" placeholder="Age" disabled>
+        </div>
+        
+        <div class="form-row">
+          <label>
+            <input type="checkbox" id="loyaltyDiscount"> Frequent Visitor (10% discount for 5+ visits)
+          </label>
+          <input type="number" id="visitCount" min="0" placeholder="Visits this year" disabled>
+        </div>
+        
+        <div class="form-row">
+          <label>
+            <input type="checkbox" id="voucherDiscount"> Voucher Code
+          </label>
+          <input type="text" id="voucherCode" placeholder="Enter code" disabled>
+        </div>
+      </div>
+      
+      <div class="form-buttons">
+        <button type="button" onclick="hideForm('billCalculatorForm')">Cancel</button>
+        <button type="submit">Calculate</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    const departmentDoctors = {
+      cardiology: [
+        {name: "Dr. Amit Sharma", id: "cardio1"},
+        {name: "Dr. Priya Patel", id: "cardio2"},
+        {name: "Dr. Rajesh Kumar", id: "cardio3"}
+      ],
+      oncology: [
+        {name: "Dr. Neha Gupta", id: "onco1"},
+        {name: "Dr. Sanjay Verma", id: "onco2"},
+        {name: "Dr. Anjali Singh", id: "onco3"}
+      ],
+      neurology: [
+        {name: "Dr. Vikram Joshi", id: "neuro1"},
+        {name: "Dr. Meena Desai", id: "neuro2"},
+        {name: "Dr. Arjun Reddy", id: "neuro3"}
+      ],
+      pediatrics: [
+        {name: "Dr. Sunita Rao", id: "pedia1"},
+        {name: "Dr. Rahul Mehta", id: "pedia2"},
+        {name: "Dr. Kavita Nair", id: "pedia3"}
+      ],
+      general: [
+        {name: "Dr. Anil Kapoor", id: "gen1"},
+        {name: "Dr. Shweta Iyer", id: "gen2"},
+        {name: "Dr. Mohan Das", id: "gen3"}
+      ]
+    };
+
+    // Voucher codes and their discounts
+    const voucherCodes = {
+      "HEALTH20": 20,  // 20% discount
+      "SAVE15": 15,     // 15% discount
+      "MOUNTCARE10": 10 // 10% discount
+    };
+
+    function showSlide(n) {
+      currentSlide = (n + totalSlides) % totalSlides;
+      document.querySelector('.slider').style.transform = `translateX(-${currentSlide * 100}%)`;
+    }
+    function nextSlide() { showSlide(currentSlide + 1); }
+    function prevSlide() { showSlide(currentSlide - 1); }
+    setInterval(nextSlide, 3000);
+
+    function showForm(formId) {
+      document.getElementById('overlay').style.display = 'block';
+      document.getElementById(formId).style.display = 'block';
+    }
+
+    function hideForm(formId) {
+      document.getElementById('overlay').style.display = 'none';
+      document.getElementById(formId).style.display = 'none';
+      document.getElementById(formId + 'Data').reset();
+    }
+
+    function showAppointmentForm() {
+      showForm('appointmentForm');
+    }
+
+    function showBillCalculator() {
+      showForm('billCalculatorForm');
+    }
+
+    function toggleAgeField() {
+      const ageCheckbox = document.getElementById('ageDiscount');
+      const ageInput = document.getElementById('patientAge');
+      ageInput.disabled = !ageCheckbox.checked;
+      if (!ageCheckbox.checked) ageInput.value = '';
+    }
+    function updateDoctorsList() {
+      const department = document.getElementById('department').value;
+      const doctorSelect = document.getElementById('doctor');
+      
+      doctorSelect.innerHTML = '';
+      
+      if (!department) {
+        doctorSelect.innerHTML = '<option value="">Select Department First</option>';
+        return;
+      }
+      
+      const doctors = departmentDoctors[department];
+      doctors.forEach(doctor => {
+        const option = document.createElement('option');
+        option.value = doctor.id;
+        option.textContent = doctor.name;
+        doctorSelect.appendChild(option);
+      });
+    }
+    function fetchAppointments() {
+      fetch('fetch_appointments.php')
+          .then(response => response.json())
+          .then(data => {
+              let tableBody = document.getElementById("appointmentTableBody");
+              tableBody.innerHTML = "";
+              data.forEach(appointment => {
+                  let row = `<tr>
+                      <td>${appointment.id}</td>
+                      <td>${appointment.name}</td>
+                      <td>${appointment.doctor}</td>
+                      <td>${appointment.date}</td>
+                      <td>${appointment.time}</td>
+                      <td><button onclick="editAppointment(${appointment.id}, '${appointment.name}', '${appointment.doctor}', '${appointment.date}', '${appointment.time}')">Edit</button></td>
+                  </tr>`;
+                  tableBody.innerHTML += row;
+              });
+          });
+  }
+  
+  function editAppointment(id, name, doctor, date, time) {
+      document.getElementById("editId").value = id;
+      document.getElementById("editName").value = name;
+      document.getElementById("editDoctor").value = doctor;
+      document.getElementById("editDate").value = date;
+      document.getElementById("editTime").value = time;
+      document.getElementById("editModal").style.display = "block";
+  }
+  
+  function closeEditModal() {
+      document.getElementById("editModal").style.display = "none";
+  }
+  
+  function updateAppointment() {
+      let id = document.getElementById("editId").value;
+      let name = document.getElementById("editName").value;
+      let doctor = document.getElementById("editDoctor").value;
+      let date = document.getElementById("editDate").value;
+      let time = document.getElementById("editTime").value;
+  
+      fetch('update_appointment.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id, name, doctor, date, time })
+      })
+      .then(response => response.text())
+      .then(data => {
+          alert(data);
+          closeEditModal();
+          fetchAppointments();
+      });
+  }
+    function submitAppointmentForm(event) {
+      event.preventDefault();
+      
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const date = document.getElementById('date').value;
+      const department = document.getElementById('department').value;
+      const doctor = document.getElementById('doctor');
+      const doctorName = doctor.options[doctor.selectedIndex].text;
+      
+      hideForm('appointmentForm');
+      
+      alert(`Thank you, ${name}!\nYour appointment with ${doctorName} (${department}) has been booked for ${date}.\nA confirmation has been sent to ${email}.`);
+    }
+
+    function calculateBill(event) {
+      event.preventDefault();
+
+      const roomRate = 2000;
+      const roomDays = parseInt(document.getElementById('roomDays').value) || 0;
+      const medicineCost = parseInt(document.getElementById('medicineCost').value) || 0;
+      const testsCost = parseInt(document.getElementById('testsCost').value) || 0;
+      const otherCharges = parseInt(document.getElementById('otherCharges').value) || 0;
+
+      const roomCharges = roomDays * roomRate;
+      let total = roomCharges + medicineCost + testsCost + otherCharges;
+      let discountDetails = "";
+      let totalDiscount = 0;
+
+      if (document.getElementById('ageDiscount').checked) {
+        const age = parseInt(document.getElementById('patientAge').value) || 0;
+        if (age >= 60) {
+          const discount = total * 0.10;
+          total -= discount;
+          totalDiscount += discount;
+          discountDetails += `Senior Citizen (60+): -₹${discount.toLocaleString()}\n`;
+        } else if (age < 12) {
+          const discount = total * 0.05;
+          total -= discount;
+          totalDiscount += discount;
+          discountDetails += `Child Discount (<12): -₹${discount.toLocaleString()}\n`;
+        }
+      }
+      if (document.getElementById('loyaltyDiscount').checked) {
+        const visits = parseInt(document.getElementById('visitCount').value) || 0;
+        if (visits >= 5) {
+          const discount = total * 0.10;
+          total -= discount;
+          totalDiscount += discount;
+          discountDetails += `Loyalty Discount (${visits} visits): -₹${discount.toLocaleString()}\n`;
+        }
+      }
+      if (document.getElementById('voucherDiscount').checked) {
+        const voucherCode = document.getElementById('voucherCode').value.toUpperCase();
+        if (voucherCodes[voucherCode]) {
+          const discount = total * (voucherCodes[voucherCode] / 100);
+          total -= discount;
+          totalDiscount += discount;
+          discountDetails += `Voucher "${voucherCode}": -₹${discount.toLocaleString()} (${voucherCodes[voucherCode]}%)\n`;
+        } else if (voucherCode) {
+          discountDetails += `Invalid voucher code\n`;
+        }
+      }
+      let billSummary = `Estimated Hospital Bill:\n\n`;
+      billSummary += `Room Charges (${roomDays} days): ₹${roomCharges.toLocaleString()}\n`;
+      billSummary += `Medicine: ₹${medicineCost.toLocaleString()}\n`;
+      billSummary += `Tests: ₹${testsCost.toLocaleString()}\n`;
+      billSummary += `Other Charges: ₹${otherCharges.toLocaleString()}\n\n`;
+      
+      if (discountDetails) {
+        billSummary += `DISCOUNTS APPLIED:\n${discountDetails}\n`;
+        billSummary += `Total Discounts: -₹${totalDiscount.toLocaleString()}\n\n`;
+      }
+      
+      billSummary += `SUBTOTAL: ₹${(roomCharges + medicineCost + testsCost + otherCharges).toLocaleString()}\n`;
+      billSummary += `FINAL TOTAL: ₹${total.toLocaleString()}`;
+
+      hideForm('billCalculatorForm');
+      alert(billSummary);
+    }
+    document.getElementById('loyaltyDiscount').addEventListener('change', function() {
+      document.getElementById('visitCount').disabled = !this.checked;
+      if (!this.checked) document.getElementById('visitCount').value = '';
+    });
+    document.addEventListener("DOMContentLoaded", function () {
+      document.querySelector("a[onclick='showAppointmentForm(event)']").addEventListener("click", function (event) {
+          event.preventDefault(); // Prevent old pop-up behavior
+          window.location.href = "index.html"; // Redirect to index.html
+      });
+  });
+    document.getElementById('voucherDiscount').addEventListener('change', function() {
+      document.getElementById('voucherCode').disabled = !this.checked;
+      if (!this.checked) document.getElementById('voucherCode').value = '';
+    });
+  </script>
+</body>
+</html>

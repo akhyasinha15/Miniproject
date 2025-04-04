@@ -1,0 +1,166 @@
+<html>
+    <body>
+        <div class="form-container" id="billCalculatorForm">
+            <h3>Hospital Bill Calculator</h3>
+            <form id="billCalculatorFormData" onsubmit="calculateBill(event)">
+              <label for="roomDays">Room Days:</label>
+              <input type="number" id="roomDays" min="0" value="0" required>
+              <br><br>
+              <label for="medicineCost">Medicine Cost (₹):</label>
+              <input type="number" id="medicineCost" min="0" value="0" required>
+              <br><br>
+              <label for="testsCost">Tests Cost (₹):</label>
+              <input type="number" id="testsCost" min="0" value="0" required>
+              <br><br>
+              <label for="otherCharges">Other Charges (₹):</label>
+              <input type="number" id="otherCharges" min="0" value="0" required>
+              <br><br>
+              <div class="discount-options">
+                <strong>Discount Options:</strong>
+                
+                <div class="form-row">
+                  <label>
+                    <input type="checkbox" id="ageDiscount" onchange="toggleAgeField()"> Age-based Discount
+                  </label>
+                  <input type="number" id="patientAge" min="0" max="120" placeholder="Age" disabled>
+                </div>
+                
+                <div class="form-row">
+                  <label>
+                    <input type="checkbox" id="loyaltyDiscount"> Frequent Visitor (10% discount for 5+ visits)
+                  </label>
+                  <input type="number" id="visitCount" min="0" placeholder="Visits this year" disabled>
+                </div>
+                
+                <div class="form-row">
+                  <label>
+                    <input type="checkbox" id="voucherDiscount"> Voucher Code
+                  </label>
+                  <input type="text" id="voucherCode" placeholder="Enter code" disabled>
+                </div>
+              </div>
+              
+              <div class="form-buttons">
+                <button type="button" onclick="hideForm('billCalculatorForm')">Cancel</button>
+                <button type="submit">Calculate</button>
+              </div>
+            </form>
+          </div>
+          <script>
+            // Voucher codes and their discounts
+            const voucherCodes = {
+              "HEALTH20": 20,  // 20% discount
+              "SAVE15": 15,     // 15% discount
+              "MOUNTCARE10": 10 // 10% discount
+            };
+        
+            function toggleAgeField() {
+              const ageCheckbox = document.getElementById('ageDiscount');
+              const ageInput = document.getElementById('patientAge');
+              ageInput.disabled = !ageCheckbox.checked;
+              if (!ageCheckbox.checked) ageInput.value = '';
+            }
+        
+            function calculateBill(event) {
+              event.preventDefault();
+              
+              // Base costs
+              const roomRate = 2000;
+              const roomDays = parseInt(document.getElementById('roomDays').value) || 0;
+              const medicineCost = parseInt(document.getElementById('medicineCost').value) || 0;
+              const testsCost = parseInt(document.getElementById('testsCost').value) || 0;
+              const otherCharges = parseInt(document.getElementById('otherCharges').value) || 0;
+              
+              // Calculate base total
+              const roomCharges = roomDays * roomRate;
+              let total = roomCharges + medicineCost + testsCost + otherCharges;
+              let discountDetails = [];
+              let totalDiscount = 0;
+        
+              // Age-based discount (10% for seniors 60+, 5% for children <12)
+              if (document.getElementById('ageDiscount').checked) {
+                const age = parseInt(document.getElementById('patientAge').value) || 0;
+                if (age >= 60) {
+                  const discount = total * 0.10;
+                  total -= discount;
+                  totalDiscount += discount;
+                  discountDetails.push(`Senior Citizen (60+): -₹${discount.toFixed(2)}`);
+                } else if (age < 12) {
+                  const discount = total * 0.05;
+                  total -= discount;
+                  totalDiscount += discount;
+                  discountDetails.push(`Child Discount (<12): -₹${discount.toFixed(2)}`);
+                }
+              }
+        
+              // Loyalty discount (10% for 5+ visits)
+              if (document.getElementById('loyaltyDiscount').checked) {
+                const visits = parseInt(document.getElementById('visitCount').value) || 0;
+                if (visits >= 5) {
+                  const discount = total * 0.10;
+                  total -= discount;
+                  totalDiscount += discount;
+                  discountDetails.push(`Loyalty Discount (${visits} visits): -₹${discount.toFixed(2)}`);
+                }
+              }
+        
+              // Voucher discount
+              if (document.getElementById('voucherDiscount').checked) {
+                const voucherCode = document.getElementById('voucherCode').value.toUpperCase();
+                if (voucherCodes[voucherCode]) {
+                  const discount = total * (voucherCodes[voucherCode] / 100);
+                  total -= discount;
+                  totalDiscount += discount;
+                  discountDetails.push(`Voucher "${voucherCode}": -₹${discount.toFixed(2)} (${voucherCodes[voucherCode]}%)`);
+                } else if (voucherCode) {
+                  discountDetails.push(`Invalid voucher code`);
+                }
+              }
+        
+              // Prepare the bill summary
+              let billSummary = `=== HOSPITAL BILL ESTIMATE ===\n\n`;
+              billSummary += `Room Charges (${roomDays} days @ ₹${roomRate}/day): ₹${roomCharges.toFixed(2)}\n`;
+              billSummary += `Medicine Costs: ₹${medicineCost.toFixed(2)}\n`;
+              billSummary += `Test Costs: ₹${testsCost.toFixed(2)}\n`;
+              billSummary += `Other Charges: ₹${otherCharges.toFixed(2)}\n`;
+              billSummary += `--------------------------------\n`;
+              billSummary += `Subtotal: ₹${(roomCharges + medicineCost + testsCost + otherCharges).toFixed(2)}\n\n`;
+              
+              if (discountDetails.length > 0) {
+                billSummary += `=== DISCOUNTS APPLIED ===\n`;
+                billSummary += discountDetails.join('\n') + '\n';
+                billSummary += `--------------------------------\n`;
+                billSummary += `Total Discounts: -₹${totalDiscount.toFixed(2)}\n\n`;
+              }
+              
+              billSummary += `=== FINAL TOTAL ===\n`;
+              billSummary += `₹${total.toFixed(2)}`;
+        
+              alert(billSummary);
+            }
+        
+            // Enable/disable fields based on checkbox state
+            document.getElementById('loyaltyDiscount').addEventListener('change', function() {
+              document.getElementById('visitCount').disabled = !this.checked;
+              if (!this.checked) document.getElementById('visitCount').value = '';
+            });
+        
+            document.getElementById('voucherDiscount').addEventListener('change', function() {
+              document.getElementById('voucherCode').disabled = !this.checked;
+              if (!this.checked) document.getElementById('voucherCode').value = '';
+            });
+
+            // Form visibility functions
+            function showForm(formId) {
+              document.getElementById('overlay').style.display = 'block';
+              document.getElementById(formId).style.display = 'block';
+            }
+        
+            function hideForm(formId) {
+              document.getElementById('overlay').style.display = 'none';
+              document.getElementById(formId).style.display = 'none';
+              document.getElementById(formId + 'Data').reset();
+            }
+          </script>
+    </body>
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patient Care - MountCare Health System</title>
+  <style>
+    /* Basic styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+    }
+    
+    header, nav, section, footer {
+      padding: 20px;
+    }
+    
+    header {
+      background-color: #54b1ee;
+      color: white;
+      text-align: center;
+    }
+    
+    nav {
+      background-color: #c22f9d;
+      text-align: center;
+      padding: 15px;
+    }
+    
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 15px;
+      font-weight: bold;
+    }
+    
+    /* Main content container */
+    .main-content {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+    
+    /* Departments section */
+    .departments {
+      margin-bottom: 40px;
+    }
+    
+    .department-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+    
+    .department-card {
+      background: #f8f8f8;
+      border-radius: 8px;
+      padding: 20px;
+      text-align: center;
+      transition: all 0.3s ease;
+      border: 1px solid #e0e0e0;
+    }
+    
+    .department-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      background: #e8f4fc;
+      border-color: #54b1ee;
+    }
+    
+    .department-card a {
+      color: #333;
+      text-decoration: none;
+      display: block;
+      height: 100%;
+    }
+    
+    .department-card h3 {
+      color: #c22f9d;
+      margin-top: 0;
+    }
+    
+    /* Facilities tools section */
+    .facility-tools {
+      background: #f0f0f0;
+      padding: 30px;
+      border-radius: 8px;
+    }
+    
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+    
+    .tool-card {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    
+    .btn {
+      background: #c22f9d;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    
+    h2 {
+      color: #c22f9d;
+      border-bottom: 2px solid #54b1ee;
+      padding-bottom: 10px;
+    }
+    
+    footer {
+      background: #c22f9d;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>MountCare Health System</h1>
+    <p>Compassionate care for every patient.</p>
+  </header>
+
+  <nav>
+    <a href="ho.html">Home</a>
+    <a href="#">Find a Doctor</a>
+    <a href="#">Appointments</a>
+    <a href="#">Locations</a>
+    <a href="about.html">About Us</a>
+  </nav>
+  
+  <div class="main-content">
+    <section class="departments">
+      <h2>Our Departments</h2>
+      <div class="department-grid">
+        <div class="department-card">
+          <a href="cardiology.html">
+            <h3>Cardiology</h3>
+            <p>Heart care and cardiovascular treatments</p>
+          </a>
+        </div>
+        <div class="department-card">
+          <a href="neurology.html">
+            <h3>Neurology</h3>
+            <p>Brain and nervous system specialists</p>
+          </a>
+        </div>
+        <div class="department-card">
+          <a href="orthopedics.html">
+            <h3>Orthopedics</h3>
+            <p>Bone, joint and muscle care</p>
+          </a>
+        </div>
+        <div class="department-card">
+          <a href="pediatrics.html">
+            <h3>Pediatrics</h3>
+            <p>Specialized care for children</p>
+          </a>
+        </div>
+        <div class="department-card">
+          <a href="oncology.html">
+            <h3>Oncology</h3>
+            <p>Cancer diagnosis and treatment</p>
+          </a>
+        </div>
+        <div class="department-card">
+          <a href="cancer.html">
+            <h3>Radiology</h3>
+            <p>Medical imaging services</p>
+          </a>
+        </div>
+      </div>
+    </section>
+    
+    <section class="facility-tools">
+      <h2>Patient Facilities</h2>
+      <div class="tools-grid">
+        <div class="tool-card">
+            <h3>Estimate your expenses</h3>
+            <p>Estimate your treatment costs before your visit</p>
+            <a href="cal.html"><button class="btn" onclick="showBillCalculator()">Calculate Expense</button></a>
+          
+          
+          
+        </div>
+        <div class="tool-card">
+          <h3>Generate Diet Plan</h3>
+          <p>Get personalized nutrition recommendations</p>
+          <a href="diet.html"><button class="btn">Generate Plan</button></a>
+        </div>
+        <div class="tool-card">
+          <h3>Exercise Plan</h3>
+          <p>Create a customized workout routine</p>
+          <a href="exercise.html"><button class="btn">Get Plan</button></a>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+
+  <footer>
+    <p>Call us at +91-1800-MD-CARE | 2025 MountCare Health System</p>
+  </footer>
+</body>
+</html>
