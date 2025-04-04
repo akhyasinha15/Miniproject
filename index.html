@@ -3,23 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doctor Appointment System</title>
+    <title>Appointments Management</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Book an Appointment</h1>
-    <form id="appointmentForm">
-        <input type="text" id="name" placeholder="Your Name" required>
-        <input type="email" id="email" placeholder="Your Email" required>
-        <input type="date" id="date" required>
-        <input type="time" id="time" required>
-        <input type="text" id="doctor" placeholder="Doctor's Name" required>
-        <button type="submit">Book Appointment</button>
-    </form>
+    <div class="container">
+        <h1>Appointments</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="appointments"></tbody>
+        </table>
 
-    <h2>Appointments</h2>
-    <ul id="appointmentsList"></ul>
+        <h2>Add New Appointment</h2>
+        <div class="form-container">
+            <input type="text" id="name" placeholder="Name">
+            <input type="date" id="date">
+            <input type="time" id="time">
+            <button onclick="addAppointment()">Add Appointment</button>
+        </div>
+    </div>
 
-    <script src="script.js"></script>
+    <script>
+        async function fetchAppointments() {
+            let response = await fetch("http://localhost:5000/appointments");
+            let data = await response.json();
+            let table = document.getElementById("appointments");
+            table.innerHTML = "";
+            data.forEach(app => {
+                table.innerHTML += `<tr>
+                    <td>${app.id}</td>
+                    <td><input type="text" value="${app.name}" id="name-${app.id}"></td>
+                    <td><input type="date" value="${app.date}" id="date-${app.id}"></td>
+                    <td><input type="time" value="${app.time}" id="time-${app.id}"></td>
+                    <td>
+                        <button class="update-btn" onclick="updateAppointment(${app.id})">Update</button>
+                        <button class="delete-btn" onclick="deleteAppointment(${app.id})">Delete</button>
+                    </td>
+                </tr>`;
+            });
+        }
+
+        async function addAppointment() {
+            let name = document.getElementById("name").value;
+            let date = document.getElementById("date").value;
+            let time = document.getElementById("time").value;
+
+            await fetch("http://localhost:5000/appointments", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, date, time })
+            });
+
+            fetchAppointments();
+        }
+
+        async function updateAppointment(id) {
+            let name = document.getElementById(`name-${id}`).value;
+            let date = document.getElementById(`date-${id}`).value;
+            let time = document.getElementById(`time-${id}`).value;
+
+            await fetch(`http://localhost:5000/appointments/${id}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, date, time })
+            });
+
+            fetchAppointments();
+        }
+
+        async function deleteAppointment(id) {
+            await fetch(`http://localhost:5000/appointments/${id}`, {
+                method: "DELETE"
+            });
+
+            fetchAppointments();
+        }
+
+        fetchAppointments();
+    </script>
 </body>
 </html>
